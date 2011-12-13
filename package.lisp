@@ -34,6 +34,7 @@
    #:progn-1
    #:lret
    #:lret*
+   #:if-maybe-let
    #:if-let*
    #:case-let
    #:fcase

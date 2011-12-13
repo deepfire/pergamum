@@ -75,6 +75,37 @@ the bindings NOT in effect."
             ,else-tag
             (return-from ,block ,else-form))))))
 
+(defmacro if-maybe-let (bindings &body (then-form &optional else-form))
+  "Evaluates value forms in BINDINGS, and conditionally executes
+either THEN-FORM with BINDINGS established, or ELSE-FORM, without
+BINDINGS.  ELSE-FORM defaults to NIL.
+
+BINDINGS must be either single binding of the form:
+
+ (variable initial-form)
+
+or a list of bindings of the form:
+
+ ((variable-1 initial-form-1)
+  (variable-2 initial-form-2)
+  ...
+  (variable-n initial-form-n))
+
+All initial-forms are executed sequentially in the specified order. Then,
+if all initial forms evaluated to true values, all the variables are bound
+to these values and THEN-FORM is executed with these bindings in effect,
+otherwise the ELSE-FORM is executed, without additional bindings."
+  (let* ((binding-list (if (and (consp bindings) (symbolp (car bindings)))
+                           (list bindings)
+                           bindings))
+         (temp-variables (make-gensym-list (length binding-list)))
+         (variables (mapcar #'car binding-list)))
+    `(let ,(mapcar #'list temp-variables (mapcar #'cadr binding-list))
+       (if (and ,@temp-variables)
+           (let ,(mapcar #'list variables temp-variables)
+             ,then-form)
+           ,else-form))))
+
 (defmacro case-let (binding &body clauses)
   "BINDING is a single variable binding established for CLAUSES,
    which are handled as if by CASE.
