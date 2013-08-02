@@ -257,7 +257,6 @@
    #:file-as-vector
    #:file-as-string
    #:file-line
-   #:with-output-to-file
    #:with-standard-output-to-file
    #:rename-to-directory
    #:symlink-to-p

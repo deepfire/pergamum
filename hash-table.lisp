@@ -62,24 +62,6 @@
         (when (satisfies-the-test v)
           (collect (funcall function k v)))))
 
-(declaim (inline maphash-keys))
-(defun maphash-keys (function table &key key (test nil testp) (test-not nil notp))
-  "Like MAPHASH, but calls FUNCTION with each key in the hash table TABLE."
-  (when (and testp notp)
-    (error ":TEST and :TEST-NOT were both supplied."))
-  (iter (for (k v) in-hashtable table)
-        (when (satisfies-the-test v)
-          (collect (funcall function k)))))
-
-(declaim (notinline maphash-values))
-(defun maphash-values (function table &key key (test nil testp) (test-not nil notp))
-  "Like MAPHASH, but calls FUNCTION with each value in the hash table TABLE."
-  (when (and testp notp)
-    (error ":TEST and :TEST-NOT were both supplied."))
-  (iter (for (nil v) in-hashtable table)
-        (when (satisfies-the-test v)
-          (collect (funcall function v)))))
-
 (defun puthash-unique (key hash-table value)
   "Only store VALUE under KEY in HASH-TABLE when there's nothing
 occupying KEY. The second return value indicates success."
