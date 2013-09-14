@@ -114,7 +114,9 @@
    #:with-maybe-set-break-on-signals
    #:define-reported-condition
    #:report-simple-condition
+   #:define-simple-condition
    #:define-simple-error
+   #:define-simple-warning
    #:simple-condition-reporter
    ;; conditions.lisp :: canned
    #:redefinition
