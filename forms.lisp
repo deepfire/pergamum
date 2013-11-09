@@ -45,7 +45,7 @@ return its first element, or prepend a PROGN symbol in the list case."
             (emit-declaration 'special special))))
 
 (defun emit-binding-form-body (body &key declarations)
-  (prepend (list* 'declare declarations) body :key #'rest))
+  (prepend declarations body :key #'rest))
 
 (defun emit-let (bindings body &key declarations)
   (declare (list bindings))
