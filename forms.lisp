@@ -69,6 +69,9 @@ return its first element, or prepend a PROGN symbol in the list case."
   `(defun ,name ,list
      ,@(emit-lambda-body body :documentation documentation :declarations declarations)))
 
+(defmacro with-defun-emission ((name lambda-list &key documentation declarations) &body body)
+  `(emit-defun ,name ,lambda-list (list ,@body) :documentation ,documentation :declarations ,declarations))
+
 (defun emit-maybe-named-lambda (name lambda-list body)
   (if name
       `(labels ((,name (,@lambda-list) ,@body)) #',name)
